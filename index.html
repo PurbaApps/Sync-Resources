@@ -2,13 +2,41 @@
 <html lang="id">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
-  <title>Web App</title>
+  <!-- 1. Judul & Deskripsi Utama di Tab Browser -->
+  <title>Sync Resources — Sistem Kerja Terpadu | PurbaApps</title>
+  <meta name="description" content="Aplikasi pintar dari PurbaApps untuk memudahkan pengelolaan, sinkronisasi, dan efisiensi pekerjaan Anda sehari-hari.">
+  <meta name="author" content="PurbaApps">
+  <meta name="theme-color" content="#0f172a">
 
-  <!-- Izinkan akses fitur browser -->
-  <meta http-equiv="Permissions-Policy"
-        content="camera=(self), microphone=(self), geolocation=(self)">
+  <!-- 2. Open Graph Meta Tags (Tampilan Profesional di WhatsApp / Telegram / Sosmed) -->
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="PurbaApps">
+  <meta property="og:url" content="https://purbaapps.github.io/Sync-Resources/">
+  <meta property="og:title" content="Sync Resources — Solusi Kerja Praktis | PurbaApps">
+  <meta property="og:description" content="Akses aplikasi Sync Resources untuk mempercepat dan memudahkan pengelolaan data kerja Anda secara otomatis.">
+  
+  <!-- Gambar Thumbnail Otomatis (Menggunakan banner dinamis bertuliskan Sync Resources - PurbaApps) -->
+  <!-- Catatan: Jika nanti Anda punya gambar sendiri (misal thumbnail.png), ganti URL di bawah ini -->
+  <meta property="og:image" content="https://placehold.co/1200x630/0f172a/38bdf8.png?text=Sync+Resources%0Aby+PurbaApps&font=montserrat">
+  <meta property="og:image:secure_url" content="https://placehold.co/1200x630/0f172a/38bdf8.png?text=Sync+Resources%0Aby+PurbaApps&font=montserrat">
+  <meta property="og:image:type" content="image/png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Sync Resources by PurbaApps">
+
+  <!-- 3. Twitter / X Card Meta Tags -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Sync Resources — Solusi Kerja Praktis | PurbaApps">
+  <meta name="twitter:description" content="Akses aplikasi Sync Resources untuk mempercepat dan memudahkan pengelolaan data kerja Anda secara otomatis.">
+  <meta name="twitter:image" content="https://placehold.co/1200x630/0f172a/38bdf8.png?text=Sync+Resources%0Aby+PurbaApps&font=montserrat">
+
+  <!-- 4. Ikon Tab Browser (Favicon) Modern dengan Inisial "P" -->
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='22' fill='%230f172a'/><text x='50%' y='54%' dominant-baseline='central' text-anchor='middle' font-family='sans-serif' font-weight='800' font-size='58' fill='%2338bdf8'>P</text></svg>">
+
+  <!-- 5. Izinkan Akses Fitur Browser (Kamera, Mikrofon, Lokasi) -->
+  <meta http-equiv="Permissions-Policy" content="camera=*, microphone=*, geolocation=*">
 
   <style>
     * {
@@ -22,9 +50,61 @@
       width: 100%;
       height: 100%;
       overflow: hidden;
-      background: #ffffff;
+      background: #0f172a;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
     }
 
+    /* Layar Loading Halus Sambil Menunggu Google Apps Script Terbuka */
+    #loader {
+      position: fixed;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      background: #0f172a;
+      color: #f8fafc;
+      z-index: 10;
+      transition: opacity 0.4s ease, visibility 0.4s ease;
+    }
+
+    #loader.hidden {
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+    }
+
+    .spinner {
+      width: 44px;
+      height: 44px;
+      border: 4px solid rgba(56, 189, 248, 0.2);
+      border-top-color: #38bdf8;
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+      margin-bottom: 16px;
+    }
+
+    .brand-title {
+      font-size: 1.125rem;
+      font-weight: 700;
+      letter-spacing: 0.02em;
+      color: #ffffff;
+      margin: 0 0 4px 0;
+    }
+
+    .brand-sub {
+      font-size: 0.85rem;
+      color: #94a3b8;
+      margin: 0;
+    }
+
+    @keyframes spin {
+      to {
+        transform: rotate(360deg);
+      }
+    }
+
+    /* Iframe Utama */
     iframe {
       display: block;
       width: 100%;
@@ -33,18 +113,39 @@
       border: 0;
       margin: 0;
       padding: 0;
+      background: #ffffff;
+      position: relative;
+      z-index: 1;
     }
   </style>
 </head>
 
 <body>
+  <!-- Indikator Loading Profesional -->
+  <div id="loader">
+    <div class="spinner"></div>
+    <p class="brand-title">Sync Resources</p>
+    <p class="brand-sub">Memuat aplikasi PurbaApps...</p>
+  </div>
 
+  <!-- Iframe Google Apps Script Anda -->
   <iframe
+    id="app-frame"
     src="https://script.google.com/macros/s/AKfycbwsR3PIgQqTl4YfCJkBn3_nfnxDCIMJsxAHGQcWxRgTNwQR0cV545VPQKj6YETunNAN/exec"
     allow="camera; microphone; geolocation; fullscreen"
     allowfullscreen
-    referrerpolicy="no-referrer-when-downgrade">
+    referrerpolicy="no-referrer-when-downgrade"
+    onload="document.getElementById('loader').classList.add('hidden');">
   </iframe>
 
+  <script>
+    // Cadangan otomatis menyembunyikan layar loading jika koneksi lambat
+    setTimeout(function() {
+      var loader = document.getElementById('loader');
+      if (loader) {
+        loader.classList.add('hidden');
+      }
+    }, 6000);
+  </script>
 </body>
 </html>
